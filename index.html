@@ -1,64 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Poop Clicker</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poop Clicker Deluxe</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-<script src="script.js"></script>
-
 <body>
-  <!-- Перемикач теми -->
-  <div class="theme-toggle">
-    <label class="switch">
-      <input type="checkbox" id="themeSwitch">
-      <span class="slider"></span>
-    </label>
-  </div>
-
-  <!-- Меню -->
-  <div id="mainMenu" class="container slide-up">
-    <h1>Poop Clicker 💩</h1>
-    <div class="menu-buttons">
-      <button onclick="showScreen('profile')">Профіль</button>
-      <button onclick="showScreen('shop')">Магазин</button>
-      <button onclick="showScreen('leaderboard')">Лідери</button>
-      <button onclick="showScreen('game')">Грати</button>
+    <div class="theme-toggle">
+        <label class="switch">
+            <input type="checkbox" id="themeSwitch">
+            <span class="slider"></span>
+        </label>
     </div>
-  </div>
 
-  <!-- Гра -->
-  <div id="gameScreen" class="container hidden slide-up">
-    <h1>Натискай на какаху!</h1>
-    <button id="clicker"></button>
-    <p>Кліків: <span id="score">0</span></p>
-    <button class="back-btn" onclick="goBack()">Назад</button>
-  </div>
+    <div id="appContainer">
+        <div id="mainMenu" class="screen active">
+            <h1 class="game-title">Poop Clicker <span class="poop-emoji">💩</span></h1>
+            <div class="menu-buttons">
+                <button data-target="profileScreen" class="btn btn-primary">Профіль</button>
+                <button data-target="shopScreen" class="btn btn-primary">Магазин</button>
+                <button data-target="leaderboardScreen" class="btn btn-primary">Лідери</button>
+                <button data-target="gameScreen" class="btn btn-accent">Грати</button>
+            </div>
+        </div>
 
-  <!-- Профіль -->
-  <div id="profileScreen" class="container hidden slide-up">
-    <h1>Профіль</h1>
-    <p>Баланс: <span id="balance">0</span></p>
-    <button class="back-btn" onclick="goBack()">Назад</button>
-  </div>
+        <div id="gameScreen" class="screen">
+            <h1 class="screen-title">Натискай на какаху!</h1>
+            <div class="clicker-area">
+                <button id="clicker" class="poop-button"></button>
+                <div id="poop-spawn-area"></div> </div>
+            <p class="score-display">Кліків: <span id="score">0</span></p>
+            <button class="back-btn btn btn-secondary">Назад</button>
+        </div>
 
-  <!-- Магазин -->
-  <div id="shopScreen" class="container hidden slide-up">
-    <h1>Магазин апгрейдів</h1>
-    <p>Поки що нічого немає :(</p>
-    <button class="back-btn" onclick="goBack()">Назад</button>
-  </div>
+        <div id="profileScreen" class="screen">
+            <h1 class="screen-title">Ваш Профіль</h1>
+            <div class="profile-info">
+                <p>Ваш ID: <span id="profileUserId">Завантаження...</span></p>
+                <p>Ім'я: <span id="profileUserName">Завантаження...</span></p>
+                <p>Баланс: <span id="balance">0</span> <span class="poop-emoji">💩</span></p>
+                <p>Кліків за раз: <span id="clicksPerTap">1</span></p>
+            </div>
+            <button class="back-btn btn btn-secondary">Назад</button>
+        </div>
 
-  <!-- Таблиця лідерів -->
-  <div id="leaderboardScreen" class="container hidden slide-up">
-    <h1>Таблиця лідерів</h1>
-    <p>Топ гравців:</p>
-    <ul id="leaderboardList"></ul>
-    <button class="back-btn" onclick="goBack()">Назад</button>
-  </div>
+        <div id="shopScreen" class="screen">
+            <h1 class="screen-title">Магазин апгрейдів</h1>
+            <p class="shop-balance">Ваш баланс: <span id="shopBalance">0</span> <span class="poop-emoji">💩</span></p>
+            <div id="shopItems" class="shop-grid">
+                <div class="shop-item" data-item-id="1" data-cost="100" data-type="clicks">
+                    <div class="item-icon">⚡️</div>
+                    <div class="item-details">
+                        <span class="item-name">Сильний Клік</span>
+                        <span class="item-description">+1 клік за тап</span>
+                    </div>
+                    <button class="buy-btn">100 💩</button>
+                </div>
+                <div class="shop-item" data-item-id="2" data-cost="500" data-type="clicks">
+                    <div class="item-icon">✨</div>
+                    <div class="item-details">
+                        <span class="item-name">Магічний Клік</span>
+                        <span class="item-description">+5 кліків за тап</span>
+                    </div>
+                    <button class="buy-btn">500 💩</button>
+                </div>
+                </div>
+            <button class="back-btn btn btn-secondary">Назад</button>
+        </div>
 
-  <script src="script.js"></script>
+        <div id="leaderboardScreen" class="screen">
+            <h1 class="screen-title">Таблиця лідерів</h1>
+            <ul id="leaderboardList" class="leaderboard-list">
+                <li>Завантаження лідерів...</li>
+            </ul>
+            <button class="back-btn btn btn-secondary">Назад</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
