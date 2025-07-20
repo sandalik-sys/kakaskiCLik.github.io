@@ -1,48 +1,61 @@
+/* style.css */
+
+/* --- Змінні кольорів та розмірів --- */
 :root {
-    --light-bg-gradient: linear-gradient(135deg, #f0f4f8, #e0e7ee);
-    --light-card-bg: rgba(255, 255, 255, 0.95);
+    /* Світла тема */
+    --light-bg-gradient: linear-gradient(135deg, #e0f2f7, #c1e4f2); /* Блакитний градієнт */
+    --light-card-bg: rgba(255, 255, 255, 0.98); /* Майже непрозорий білий */
     --light-text: #2c3e50;
-    --light-accent-1: #3498db; /* Синій */
-    --light-accent-2: #2ecc71; /* Зелений */
-    --light-button-primary-bg: #4CAF50; /* Зелений для основних дій */
-    --light-button-primary-hover: #45a049;
-    --light-button-accent-bg: #FFC107; /* Жовтий для "Грати" */
-    --light-button-accent-hover: #e0b000;
-    --light-button-secondary-bg: #95a5a6; /* Сірий для "Назад" */
-    --light-button-secondary-hover: #7f8c8d;
-    --light-border: #bdc3c7;
-    --light-shadow: rgba(0, 0, 0, 0.15);
+    --light-accent-1: #4a90e2; /* Яскраво-синій */
+    --light-accent-2: #7ed321; /* Яскраво-зелений */
+    --light-button-primary-bg: #4a90e2;
+    --light-button-primary-hover: #357bdc;
+    --light-button-accent-bg: #f5a623; /* Помаранчевий для "Грати" */
+    --light-button-accent-hover: #e0941f;
+    --light-button-secondary-bg: #b0b8bf;
+    --light-button-secondary-hover: #98a0a7;
+    --light-border: #d3dce0;
+    --light-shadow: rgba(0, 0, 0, 0.18);
 
-    --dark-bg-gradient: linear-gradient(135deg, #2c3e50, #34495e);
-    --dark-card-bg: rgba(44, 62, 80, 0.95);
+    /* Темна тема */
+    --dark-bg-gradient: linear-gradient(135deg, #1f2a35, #2c3e50);
+    --dark-card-bg: rgba(30, 40, 50, 0.98); /* Майже непрозорий темний */
     --dark-text: #ecf0f1;
-    --dark-accent-1: #5dade2;
-    --dark-accent-2: #52be80;
-    --dark-button-primary-bg: #3cb371;
-    --dark-button-primary-hover: #36a465;
-    --dark-button-accent-bg: #f39c12;
-    --dark-button-accent-hover: #d38c10;
-    --dark-button-secondary-bg: #7b8a8b;
-    --dark-button-secondary-hover: #6c7a7b;
+    --dark-accent-1: #6aabf7;
+    --dark-accent-2: #92e04d;
+    --dark-button-primary-bg: #6aabf7;
+    --dark-button-primary-hover: #509ce8;
+    --dark-button-accent-bg: #e67e22;
+    --dark-button-accent-hover: #d2701f;
+    --dark-button-secondary-bg: #8c969f;
+    --dark-button-secondary-hover: #7b848c;
     --dark-border: #4a6572;
-    --dark-shadow: rgba(0, 0, 0, 0.4);
+    --dark-shadow: rgba(0, 0, 0, 0.5);
 
+    /* Загальні параметри */
     --transition: 0.4s ease-in-out;
-    --radius: 16px;
+    --radius: 16px; /* Заокруглення для карток */
+    --button-radius: 10px; /* Заокруглення для кнопок */
+    --padding-screen-mobile: 20px; /* Відступи на мобільних */
+    --padding-screen-desktop: 30px; /* Відступи на десктопах */
 }
 
-body {
+/* --- Базові стилі та скидання --- */
+html, body {
     margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100vh; /* Займає всю висоту вікна */
     font-family: 'Segoe UI', Arial, sans-serif;
     background: var(--light-bg-gradient);
     color: var(--light-text);
     transition: background var(--transition), color var(--transition);
     display: flex;
     justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    overflow: hidden;
+    align-items: flex-start; /* Вирівнюємо контент зверху */
+    overflow: hidden; /* Приховуємо скрол */
     position: relative;
+    box-sizing: border-box; /* Важливо для адаптивності */
 }
 
 body.dark-theme {
@@ -50,7 +63,7 @@ body.dark-theme {
     color: var(--dark-text);
 }
 
-/* Background particles (new feature) */
+/* --- Фонова анімація частинок --- */
 .particle {
     position: absolute;
     background-color: rgba(255, 255, 255, 0.2);
@@ -66,57 +79,63 @@ body.dark-theme {
     100% { transform: translateY(0) translateX(0) scale(1); opacity: 0.8; }
 }
 
-
+/* --- Основний контейнер додатку --- */
 #appContainer {
     position: relative;
-    width: 100%;
-    max-width: 420px;
-    height: 100vh;
-    max-height: 750px;
+    width: 100%; /* Займає всю ширину на мобільних */
+    max-width: 480px; /* Обмеження для десктопів */
+    height: 100%; /* Займає всю висоту на мобільних */
+    max-height: 800px; /* Обмеження для десктопів */
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     overflow: hidden;
-    perspective: 1000px; /* Для 3D ефектів */
+    perspective: 1000px;
+    background: transparent;
 }
 
+/* --- Стилі для екранів (Main Menu, Game, Profile, Shop, Leaderboard) --- */
 .screen {
     position: absolute;
-    width: 90%;
-    max-width: 400px;
-    padding: 30px 20px;
+    width: 100%; /* Повна ширина на мобільних */
+    height: 100%; /* Повна висота на мобільних */
+    padding: var(--padding-screen-mobile); /* Відступи для мобільних */
     background: var(--light-card-bg);
-    border-radius: var(--radius);
-    box-shadow: 0 10px 30px var(--light-shadow);
+    border-radius: 0; /* Без заокруглень на мобільних */
+    box-shadow: none; /* Без тіней на мобільних */
+    border: none; /* Без бордюрів на мобільних */
     text-align: center;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(12px);
     transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.6s ease-in-out;
     opacity: 0;
-    transform: translateY(100vh) rotateX(10deg);
+    transform: translateY(100%) rotateX(15deg) scale(0.95);
     pointer-events: none;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start; /* Контент зверху */
     align-items: center;
-    min-height: 70%;
+    box-sizing: border-box;
+    overflow-y: auto; /* Дозволяємо скрол, якщо контент не поміщається */
+    -webkit-overflow-scrolling: touch; /* Плавний скрол на iOS */
 }
 
 .screen.active {
     opacity: 1;
-    transform: translateY(0) rotateX(0deg);
+    transform: translateY(0) rotateX(0deg) scale(1);
     pointer-events: auto;
 }
 
 body.dark-theme .screen {
     background: var(--dark-card-bg);
-    box-shadow: 0 10px 30px var(--dark-shadow);
-    border: 1px solid rgba(0, 0, 0, 0.3);
+    box-shadow: none;
+    border: none;
 }
 
+/* --- Заголовки --- */
 .game-title {
-    font-size: 3.5em; /* Великий розмір для головного заголовка */
+    font-size: clamp(2.5em, 10vw, 3.8em); /* Адаптивний розмір шрифту */
+    margin-top: 20px; /* Відступ зверху на мобільних */
     margin-bottom: 30px;
     color: var(--light-text);
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
@@ -128,12 +147,13 @@ body.dark-theme .game-title {
 }
 
 .poop-emoji {
-    font-size: 1.2em; /* Щоб емодзі був трохи більшим */
+    font-size: 1.2em;
     vertical-align: middle;
 }
 
 .screen-title {
-    font-size: 2.2em;
+    font-size: clamp(1.8em, 7vw, 2.5em);
+    margin-top: 15px; /* Відступ зверху на мобільних */
     margin-bottom: 25px;
     color: var(--light-text);
 }
@@ -142,16 +162,17 @@ body.dark-theme .screen-title {
     color: var(--dark-text);
 }
 
-/* Global Button Styles */
+/* --- Глобальні стилі кнопок --- */
 .btn {
     display: block;
-    width: 100%;
-    margin: 12px 0;
+    width: 90%; /* Більша адаптивність */
+    max-width: 300px; /* Обмеження ширини */
+    margin: 10px auto; /* Центрування */
     padding: 16px 20px;
-    font-size: 1.2em;
+    font-size: clamp(1em, 4vw, 1.2em);
     font-weight: bold;
     border: none;
-    border-radius: 10px;
+    border-radius: var(--button-radius);
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
@@ -169,67 +190,30 @@ body.dark-theme .screen-title {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Primary buttons (for menu items) */
-.btn-primary {
-    background-color: var(--light-button-primary-bg);
-    color: white;
-}
+/* Primary buttons */
+.btn-primary { background-color: var(--light-button-primary-bg); color: white; }
+.btn-primary:hover { background-color: var(--light-button-primary-hover); }
+body.dark-theme .btn-primary { background-color: var(--dark-button-primary-bg); }
+body.dark-theme .btn-primary:hover { background-color: var(--dark-button-primary-hover); }
 
-.btn-primary:hover {
-    background-color: var(--light-button-primary-hover);
-}
+/* Accent button */
+.btn-accent { background-color: var(--light-button-accent-bg); color: var(--light-text); }
+.btn-accent:hover { background-color: var(--light-button-accent-hover); }
+body.dark-theme .btn-accent { background-color: var(--dark-button-accent-bg); color: var(--dark-text); }
+body.dark-theme .btn-accent:hover { background-color: var(--dark-button-accent-hover); }
 
-body.dark-theme .btn-primary {
-    background-color: var(--dark-button-primary-bg);
-}
-
-body.dark-theme .btn-primary:hover {
-    background-color: var(--dark-button-primary-hover);
-}
-
-/* Accent button (for "Play") */
-.btn-accent {
-    background-color: var(--light-button-accent-bg);
-    color: var(--light-text);
-}
-
-.btn-accent:hover {
-    background-color: var(--light-button-accent-hover);
-}
-
-body.dark-theme .btn-accent {
-    background-color: var(--dark-button-accent-bg);
-    color: var(--dark-text);
-}
-
-body.dark-theme .btn-accent:hover {
-    background-color: var(--dark-button-accent-hover);
-}
-
-/* Secondary buttons (for "Back") */
-.btn-secondary {
-    background-color: var(--light-button-secondary-bg);
-    color: white;
-}
-
-.btn-secondary:hover {
-    background-color: var(--light-button-secondary-hover);
-}
-
-body.dark-theme .btn-secondary {
-    background-color: var(--dark-button-secondary-bg);
-}
-
-body.dark-theme .btn-secondary:hover {
-    background-color: var(--dark-button-secondary-hover);
-}
+/* Secondary buttons */
+.btn-secondary { background-color: var(--light-button-secondary-bg); color: white; }
+.btn-secondary:hover { background-color: var(--light-button-secondary-hover); }
+body.dark-theme .btn-secondary { background-color: var(--dark-button-secondary-bg); }
+body.dark-theme .btn-secondary:hover { background-color: var(--dark-button-secondary-hover); }
 
 
-/* Game Screen Specifics */
+/* --- Екран гри --- */
 .clicker-area {
     position: relative;
     width: 100%;
-    height: 200px; /* Висота для клікера і спавну */
+    height: 250px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -237,15 +221,15 @@ body.dark-theme .btn-secondary:hover {
 }
 
 .poop-button {
-    width: 180px;
-    height: 180px;
+    width: clamp(150px, 40vw, 200px); /* Адаптивний розмір какашки */
+    height: clamp(150px, 40vw, 200px);
     background: url('kaka.png') center/contain no-repeat;
     border: none;
     cursor: pointer;
     transition: transform 0.1s ease-out, filter 0.1s ease-out;
     filter: drop-shadow(0 8px 15px rgba(0, 0, 0, 0.3));
-    position: relative; /* Для ефектів при кліку */
-    z-index: 2; /* Щоб була над спавнерами */
+    position: relative;
+    z-index: 2;
 }
 
 .poop-button:active {
@@ -254,7 +238,7 @@ body.dark-theme .btn-secondary:hover {
 }
 
 .score-display {
-    font-size: 2em;
+    font-size: clamp(1.8em, 7vw, 2.5em);
     font-weight: bold;
     margin-bottom: 20px;
     color: var(--light-text);
@@ -264,48 +248,52 @@ body.dark-theme .score-display {
     color: var(--dark-text);
 }
 
-/* Poop spawn animation */
 #poop-spawn-area {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 250px;
-    height: 250px;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
-    overflow: visible; /* Щоб какашки вилітали за межі */
+    overflow: hidden;
 }
 
 .spawned-poop {
     position: absolute;
-    width: 40px; /* Розмір спавненої какашки */
-    height: 40px;
-    background: url('kaka_small.png') center/contain no-repeat; /* Можна використати менше зображення або те саме */
+    width: 30px;
+    height: 30px;
+    background: url('kaka_small.png') center/contain no-repeat;
     opacity: 0;
     animation: poopFadeOut 0.8s ease-out forwards;
-    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.1));
+    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.1));
 }
 
 @keyframes poopFadeOut {
     0% { opacity: 1; transform: translate(0, 0) scale(1) rotate(0deg); }
-    100% { opacity: 0; transform: translate(var(--x), var(--y)) scale(0.5) rotate(var(--rotate)); }
+    100% { opacity: 0; transform: translate(var(--x), var(--y)) scale(0.4) rotate(var(--rotate)); }
 }
 
-/* Profile Screen */
+/* --- Екран профілю --- */
 .profile-info {
     text-align: left;
-    width: 100%;
+    width: 95%; /* Більш адаптивна ширина */
     margin-top: 20px;
     padding: 0 10px;
+    flex-grow: 1; /* Займає доступний простір */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Вирівнювання зверху */
 }
 .profile-info p {
-    font-size: 1.1em;
-    margin-bottom: 10px;
+    font-size: clamp(1em, 4vw, 1.2em);
+    margin-bottom: 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 0;
+    padding: 10px 0;
     border-bottom: 1px solid var(--light-border);
+    flex-wrap: wrap; /* Дозволяє тексту переноситися на новий рядок */
 }
 
 body.dark-theme .profile-info p {
@@ -316,11 +304,11 @@ body.dark-theme .profile-info p {
     border-bottom: none;
 }
 
-/* Shop Screen */
+/* --- Екран магазину --- */
 .shop-balance {
-    font-size: 1.5em;
+    font-size: clamp(1.2em, 5vw, 1.5em);
     font-weight: bold;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     color: var(--light-text);
 }
 
@@ -331,47 +319,34 @@ body.dark-theme .shop-balance {
 .shop-grid {
     display: grid;
     grid-template-columns: 1fr; /* Один стовпець на мобільних */
-    gap: 15px;
-    width: 100%;
-    max-height: 350px; /* Обмеження висоти для скролу */
-    overflow-y: auto; /* Додаємо скрол */
-    padding-right: 5px; /* Для вигляду скролбару */
+    gap: 12px;
+    width: 95%; /* Більш адаптивна ширина */
+    flex-grow: 1; /* Займає доступний простір */
+    overflow-y: auto; /* Дозволяємо скрол */
+    padding-right: 8px; /* Для вигляду скролбару */
 }
 
 /* Scrollbar styles (Webkit) */
-.shop-grid::-webkit-scrollbar {
-    width: 8px;
-}
-
-.shop-grid::-webkit-scrollbar-track {
-    background: var(--light-border);
-    border-radius: 10px;
-}
-
-body.dark-theme .shop-grid::-webkit-scrollbar-track {
-    background: var(--dark-border);
-}
-
-.shop-grid::-webkit-scrollbar-thumb {
-    background: var(--light-accent-1);
-    border-radius: 10px;
-}
-
-body.dark-theme .shop-grid::-webkit-scrollbar-thumb {
-    background: var(--dark-accent-1);
-}
+.shop-grid::-webkit-scrollbar { width: 8px; }
+.shop-grid::-webkit-scrollbar-track { background: var(--light-border); border-radius: 10px; }
+body.dark-theme .shop-grid::-webkit-scrollbar-track { background: var(--dark-border); }
+.shop-grid::-webkit-scrollbar-thumb { background: var(--light-accent-1); border-radius: 10px; }
+body.dark-theme .shop-grid::-webkit-scrollbar-thumb { background: var(--dark-accent-1); }
 
 
 .shop-item {
-    background-color: var(--light-bg-gradient); /* Легкий градієнт для фону */
+    background-color: var(--light-bg-gradient);
     border: 1px solid var(--light-border);
-    border-radius: 12px;
+    border-radius: var(--radius);
     padding: 15px;
     display: flex;
+    flex-direction: column; /* Елементи в стовпець на мобільних */
     align-items: center;
-    gap: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    gap: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 body.dark-theme .shop-item {
@@ -381,19 +356,19 @@ body.dark-theme .shop-item {
 
 .shop-item:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
 .item-icon {
-    font-size: 2.5em;
-    width: 50px;
-    height: 50px;
+    font-size: clamp(2em, 8vw, 3em);
+    width: clamp(50px, 15vw, 60px);
+    height: clamp(50px, 15vw, 60px);
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: rgba(255, 255, 255, 0.5);
-    border-radius: 8px;
-    flex-shrink: 0; /* Щоб іконка не стискалась */
+    border-radius: 10px;
+    flex-shrink: 0;
 }
 
 body.dark-theme .item-icon {
@@ -401,13 +376,14 @@ body.dark-theme .item-icon {
 }
 
 .item-details {
-    flex-grow: 1; /* Займає доступний простір */
-    text-align: left;
+    flex-grow: 1;
+    text-align: center; /* Центрування тексту */
+    width: 100%; /* Займає всю ширину */
 }
 
 .item-name {
     font-weight: bold;
-    font-size: 1.1em;
+    font-size: clamp(1em, 4vw, 1.2em);
     display: block;
     margin-bottom: 3px;
     color: var(--light-text);
@@ -418,7 +394,7 @@ body.dark-theme .item-name {
 }
 
 .item-description {
-    font-size: 0.9em;
+    font-size: clamp(0.8em, 3.5vw, 1em);
     color: var(--light-text);
     opacity: 0.8;
 }
@@ -428,35 +404,25 @@ body.dark-theme .item-description {
 }
 
 .buy-btn {
-    padding: 10px 15px;
-    font-size: 1em;
+    padding: 12px 20px;
+    font-size: clamp(0.9em, 3.8vw, 1.1em);
     font-weight: bold;
     border: none;
-    border-radius: 8px;
+    border-radius: var(--button-radius);
     background-color: var(--light-accent-2);
     color: white;
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.1s ease;
-    white-space: nowrap; /* Щоб текст кнопки не переносився */
+    white-space: nowrap;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 80%; /* Займає більшу частину ширини */
+    margin-top: 10px;
 }
 
-.buy-btn:hover {
-    background-color: var(--light-button-primary-hover);
-    transform: translateY(-2px);
-}
-
-.buy-btn:active {
-    transform: translateY(0);
-}
-
-body.dark-theme .buy-btn {
-    background-color: var(--dark-accent-2);
-}
-
-body.dark-theme .buy-btn:hover {
-    background-color: var(--dark-button-primary-hover);
-}
+.buy-btn:hover { background-color: var(--light-button-primary-hover); transform: translateY(-2px); }
+.buy-btn:active { transform: translateY(0); }
+body.dark-theme .buy-btn { background-color: var(--dark-accent-2); }
+body.dark-theme .buy-btn:hover { background-color: var(--dark-button-primary-hover); }
 
 .buy-btn:disabled {
     background-color: #cccccc;
@@ -467,29 +433,30 @@ body.dark-theme .buy-btn:hover {
 }
 
 
-/* Leaderboard specific styles */
+/* --- Екран таблиці лідерів --- */
 .leaderboard-list {
     list-style: none;
     padding: 0;
     margin-top: 25px;
-    width: 100%;
-    max-height: 400px; /* Обмеження висоти для скролу */
+    width: 95%;
+    flex-grow: 1; /* Займає доступний простір */
     overflow-y: auto;
 }
 
 .leaderboard-list li {
-    background-color: var(--light-card-bg); /* фон карточки */
+    background-color: var(--light-card-bg);
     border: 1px solid var(--light-border);
     color: var(--light-text);
     margin-bottom: 10px;
     padding: 15px 20px;
-    border-radius: 12px;
+    border-radius: var(--radius);
     font-weight: bold;
     display: flex;
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     transition: background-color var(--transition), transform 0.2s ease;
+    font-size: clamp(1em, 4vw, 1.1em);
 }
 
 body.dark-theme .leaderboard-list li {
@@ -502,105 +469,98 @@ body.dark-theme .leaderboard-list li {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* Theme Switch (стилі залишаються без значних змін, але переконаємось, що вони в кінці) */
+/* --- Перемикач теми --- */
 .theme-toggle {
     position: fixed;
     top: 20px;
     right: 20px;
     z-index: 1000;
 }
-
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 55px;
-    height: 28px;
-}
-
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
+.switch { position: relative; display: inline-block; width: 55px; height: 28px; }
+.switch input { opacity: 0; width: 0; height: 0; }
 .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0; left: 0;
-    right: 0; bottom: 0;
-    background-color: #ccc;
-    transition: 0.4s;
-    border-radius: 28px;
+    position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #ccc; transition: 0.4s; border-radius: 28px;
 }
-
 .slider:before {
-    position: absolute;
-    content: "";
-    height: 22px;
-    width: 22px;
-    left: 3px;
-    bottom: 3px;
-    background-color: white;
-    transition: 0.4s;
-    border-radius: 50%;
+    position: absolute; content: ""; height: 22px; width: 22px; left: 3px; bottom: 3px;
+    background-color: white; transition: 0.4s; border-radius: 50%;
 }
-
-input:checked + .slider {
-    background-color: #4b5563;
-}
-
-input:checked + .slider:before {
-    transform: translateX(27px);
-}
+input:checked + .slider { background-color: #4b5563; }
+input:checked + .slider:before { transform: translateX(27px); }
 
 
-/* Responsive adjustments */
-@media (max-width: 480px) {
+/* --- Медіа-запити для десктопних екранів (від 501px і вище) --- */
+@media (min-width: 501px) {
+    html, body {
+        align-items: center; /* Центруємо по вертикалі на десктопах */
+    }
+
     #appContainer {
-        width: 100%;
-        max-width: none;
-        border-radius: 0;
+        border-radius: var(--radius); /* Заокруглення для контейнера на десктопах */
+        box-shadow: 0 20px 60px var(--light-shadow); /* Виразніша тінь */
+        background: var(--light-card-bg); /* Фон для контейнера */
+        border: 1px solid rgba(255, 255, 255, 0.4);
     }
+
+    body.dark-theme #appContainer {
+        box-shadow: 0 20px 60px var(--dark-shadow);
+        background: var(--dark-card-bg);
+        border: 1px solid rgba(0, 0, 0, 0.4);
+    }
+
     .screen {
-        width: 100%;
-        max-width: none;
-        padding: 20px 15px;
-        border-radius: 0;
+        padding: var(--padding-screen-desktop); /* Відступи для десктопів */
+        border-radius: var(--radius); /* Заокруглення для екранів */
+        box-shadow: 0 10px 30px var(--light-shadow); /* Тіні для екранів */
+        border: 1px solid rgba(255, 255, 255, 0.3);
     }
+
+    body.dark-theme .screen {
+        box-shadow: 0 10px 30px var(--dark-shadow);
+        border: 1px solid rgba(0, 0, 0, 0.3);
+    }
+
     .game-title {
-        font-size: 2.5em;
+        margin-top: 0; /* Без відступу зверху на десктопах */
     }
     .screen-title {
-        font-size: 1.8em;
+        margin-top: 0; /* Без відступу зверху на десктопах */
     }
-    .btn {
-        font-size: 1.1em;
-        padding: 14px 15px;
+
+    .profile-info {
+        justify-content: flex-start; /* Вирівнювання зверху */
     }
-    .poop-button {
-        width: 150px;
-        height: 150px;
-    }
-    .score-display {
-        font-size: 1.8em;
-    }
-    .profile-info p {
-        font-size: 1em;
-    }
+
     .shop-item {
-        flex-direction: column;
-        text-align: center;
+        flex-direction: row; /* Елементи в рядок на десктопах */
+        text-align: left;
     }
     .item-details {
-        text-align: center;
-        margin-top: 10px;
+        text-align: left;
     }
     .buy-btn {
-        margin-top: 10px;
-        width: 80%; /* Щоб кнопки були трохи менші на мобільних */
+        width: auto; /* Автоматична ширина кнопки */
+        margin-top: 0;
     }
-    .theme-toggle {
-        top: 10px;
-        right: 10px;
+}
+
+/* Додаткові оптимізації для дуже малих екранів, якщо потрібно */
+@media (max-width: 360px) {
+    .screen {
+        padding: 15px;
+    }
+    .btn {
+        padding: 12px 10px;
+    }
+    .poop-button {
+        width: 100px;
+        height: 100px;
+    }
+    .shop-item {
+        padding: 10px;
+    }
+    .buy-btn {
+        padding: 8px 10px;
     }
 }
