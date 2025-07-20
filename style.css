@@ -1,60 +1,165 @@
+/* style.css */
+:root {
+  --light-bg: #f3f4f6;
+  --light-text: #1f2937;
+  --light-accent: #d1d5db;
+  --dark-bg: #1f2937;
+  --dark-text: #f9fafb;
+  --dark-accent: #374151;
+
+  --transition: 0.3s ease;
+  --radius: 12px;
+}
+
 body {
   margin: 0;
-  padding: 0;
-  background: linear-gradient(145deg, #e2c2a5, #f9e4b7);
-  font-family: "Comic Sans MS", cursive, sans-serif;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--light-bg);
+  color: var(--light-text);
+  transition: background-color var(--transition), color var(--transition);
+}
+
+body.dark-theme {
+  background-color: var(--dark-bg);
+  color: var(--dark-text);
 }
 
 .container {
-  text-align: center;
+  max-width: 400px;
+  margin: 60px auto;
   padding: 20px;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 20px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-  max-width: 90%;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: var(--radius);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  backdrop-filter: blur(5px);
+  transition: transform var(--transition), opacity var(--transition);
+}
+
+body.dark-theme .container {
+  background: rgba(55, 65, 81, 0.85);
 }
 
 h1 {
-  font-size: 2.2rem;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  font-size: 24px;
 }
 
-#score {
-  font-size: 1.8rem;
-  margin-bottom: 20px;
-  color: #5a3a00;
+.menu-buttons button,
+.back-btn {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: var(--radius);
+  background-color: var(--light-accent);
+  color: var(--light-text);
+  cursor: pointer;
+  transition: background-color var(--transition);
+}
+
+body.dark-theme .menu-buttons button,
+body.dark-theme .back-btn {
+  background-color: var(--dark-accent);
+  color: var(--dark-text);
+}
+
+.menu-buttons button:hover,
+.back-btn:hover {
+  background-color: #9ca3af;
 }
 
 #clicker {
-  width: 180px;
-  height: 180px;
-  background: url("poop.png") no-repeat center center;
-  background-size: contain;
+  width: 140px;
+  height: 140px;
+  background: url('kaka.png') center/contain no-repeat;
   border: none;
-  outline: none;
+  margin: 20px 0;
   cursor: pointer;
-  transition: transform 0.1s ease;
 }
 
-#clicker:active {
-  transform: scale(0.95);
+/* Hidden screen */
+.hidden {
+  display: none;
 }
 
-@media (max-width: 600px) {
+/* Slide up animation */
+@keyframes slideUp {
+  0% { transform: translateY(100px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+.slide-up {
+  animation: slideUp 0.4s ease;
+}
+
+/* Theme Switch */
+.theme-toggle {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0;
+  right: 0; bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 24px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #4b5563;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+@media (max-width: 480px) {
+  .container {
+    margin: 40px 10px;
+    padding: 15px;
+  }
   h1 {
-    font-size: 1.6rem;
+    font-size: 20px;
   }
-
-  #score {
-    font-size: 1.4rem;
+  .menu-buttons button,
+  .back-btn {
+    font-size: 14px;
   }
-
   #clicker {
-    width: 140px;
-    height: 140px;
+    width: 100px;
+    height: 100px;
   }
 }
