@@ -223,7 +223,7 @@ body.dark-theme .btn-secondary:hover { background-color: var(--dark-button-secon
 .poop-button {
     width: clamp(150px, 40vw, 200px); /* Адаптивний розмір какашки */
     height: clamp(150px, 40vw, 200px);
-    background: url('kaka.png') center/contain no-repeat;
+    background: url('kaka.png') center/contain no-repeat; /* <-- Тут має бути шлях до картинки */
     border: none;
     cursor: pointer;
     transition: transform 0.1s ease-out, filter 0.1s ease-out;
@@ -240,13 +240,25 @@ body.dark-theme .btn-secondary:hover { background-color: var(--dark-button-secon
 .score-display {
     font-size: clamp(1.8em, 7vw, 2.5em);
     font-weight: bold;
-    margin-bottom: 20px;
+    margin-bottom: 5px; /* Зменшений відступ */
     color: var(--light-text);
 }
 
 body.dark-theme .score-display {
     color: var(--dark-text);
 }
+
+.clicks-info {
+    font-size: clamp(0.9em, 3.5vw, 1.1em);
+    margin-bottom: 20px; /* Відступ під інформацією про кліки */
+    color: var(--light-text);
+    opacity: 0.8;
+}
+
+body.dark-theme .clicks-info {
+    color: var(--dark-text);
+}
+
 
 #poop-spawn-area {
     position: absolute;
@@ -263,7 +275,7 @@ body.dark-theme .score-display {
     position: absolute;
     width: 30px;
     height: 30px;
-    background: url('kaka_small.png') center/contain no-repeat;
+    background: url('kaka_small.png') center/contain no-repeat; /* <-- Тут має бути шлях до картинки */
     opacity: 0;
     animation: poopFadeOut 0.8s ease-out forwards;
     filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.1));
@@ -335,7 +347,7 @@ body.dark-theme .shop-grid::-webkit-scrollbar-thumb { background: var(--dark-acc
 
 
 .shop-item {
-    background-color: var(--light-bg-gradient);
+    background-color: var(--light-card-bg); /* Змінено на card-bg для більш однорідного вигляду */
     border: 1px solid var(--light-border);
     border-radius: var(--radius);
     padding: 15px;
@@ -350,7 +362,7 @@ body.dark-theme .shop-grid::-webkit-scrollbar-thumb { background: var(--dark-acc
 }
 
 body.dark-theme .shop-item {
-    background-color: var(--dark-bg-gradient);
+    background-color: var(--dark-card-bg); /* Змінено на card-bg для більш однорідного вигляду */
     border: 1px solid var(--dark-border);
 }
 
