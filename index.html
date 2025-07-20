@@ -1,27 +1,64 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Какашка-Клікер</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Poop Clicker</title>
+  <link rel="stylesheet" href="style.css">
 </head>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="script.js"></script>
+
 <body>
-  <div class="container">
-    <h1>💩 Какашка-Клікер 💸</h1>
-    <div id="score">Гроші: $0</div>
-    <button id="clicker" aria-label="Клікни на какашку"></button>
+  <!-- Перемикач теми -->
+  <div class="theme-toggle">
+    <label class="switch">
+      <input type="checkbox" id="themeSwitch">
+      <span class="slider"></span>
+    </label>
   </div>
 
-  <script>
-    let score = 0;
-    const scoreElement = document.getElementById("score");
-    const clicker = document.getElementById("clicker");
+  <!-- Меню -->
+  <div id="mainMenu" class="container slide-up">
+    <h1>Poop Clicker 💩</h1>
+    <div class="menu-buttons">
+      <button onclick="showScreen('profile')">Профіль</button>
+      <button onclick="showScreen('shop')">Магазин</button>
+      <button onclick="showScreen('leaderboard')">Лідери</button>
+      <button onclick="showScreen('game')">Грати</button>
+    </div>
+  </div>
 
-    clicker.addEventListener("click", () => {
-      score++;
-      scoreElement.textContent = `Гроші: $${score}`;
-    });
-  </script>
+  <!-- Гра -->
+  <div id="gameScreen" class="container hidden slide-up">
+    <h1>Натискай на какаху!</h1>
+    <button id="clicker"></button>
+    <p>Кліків: <span id="score">0</span></p>
+    <button class="back-btn" onclick="goBack()">Назад</button>
+  </div>
+
+  <!-- Профіль -->
+  <div id="profileScreen" class="container hidden slide-up">
+    <h1>Профіль</h1>
+    <p>Баланс: <span id="balance">0</span></p>
+    <button class="back-btn" onclick="goBack()">Назад</button>
+  </div>
+
+  <!-- Магазин -->
+  <div id="shopScreen" class="container hidden slide-up">
+    <h1>Магазин апгрейдів</h1>
+    <p>Поки що нічого немає :(</p>
+    <button class="back-btn" onclick="goBack()">Назад</button>
+  </div>
+
+  <!-- Таблиця лідерів -->
+  <div id="leaderboardScreen" class="container hidden slide-up">
+    <h1>Таблиця лідерів</h1>
+    <p>Топ гравців:</p>
+    <ul id="leaderboardList"></ul>
+    <button class="back-btn" onclick="goBack()">Назад</button>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
