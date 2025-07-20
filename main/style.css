@@ -1,0 +1,60 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(145deg, #e2c2a5, #f9e4b7);
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.container {
+  text-align: center;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  max-width: 90%;
+}
+
+h1 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+}
+
+#score {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #5a3a00;
+}
+
+#clicker {
+  width: 180px;
+  height: 180px;
+  background: url("poop.png") no-repeat center center;
+  background-size: contain;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+#clicker:active {
+  transform: scale(0.95);
+}
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  #score {
+    font-size: 1.4rem;
+  }
+
+  #clicker {
+    width: 140px;
+    height: 140px;
+  }
+}
