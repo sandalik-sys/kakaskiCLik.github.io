@@ -44,6 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
       } catch (err) {
         alert(`Failed to create user: ${err.message}`);
         console.error("Error:", err);
+        alert("Error:"+ err)
       }
     });
   }
@@ -80,6 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.warn(
       "Telegram Web App user data not available. Running in development mode."
     );
+    alert("Telegram Web App user data not available. Running in development mode.")
     telegram_id = "dev_user_123";
     userName = "Lavash, govjadina";
   }
@@ -142,7 +144,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       return await res.json();
     } catch (error) {
-      console.error(`Помилка під час ${method} запиту до ${url}:`, error);
+      console.error(`Помилка під час ${method} запиту до ${url}:`+ error);
+      alert(`Помилка під час ${method} запиту до ${url}:`, error)
       throw error;
     }
   }
@@ -151,7 +154,6 @@ document.addEventListener("DOMContentLoaded", () => {
     name,
     telegramId,
     initialClicks = 0,
-    initialClicksPerTap = 1
   ) {
     try {
       return await sendApiRequest(`${API_URL}/users/`, "POST", {
@@ -162,6 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (error) {
       if (error.message && error.message.includes("already exists")) {
         console.warn("Користувач вже існує, спроба отримати існуючого...");
+        alert("Користувач вже існує, спроба отримати існуючого...")
         return await getUserByTelegramId(telegramId);
       }
       throw error;
@@ -186,8 +189,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return await sendApiRequest(`${API_URL}/users/leaderboard/`);
   }
 
-  // --- Функції UI логіки та анімації ---
-
   function showScreen(screenId) {
     document.querySelectorAll(".screen").forEach((screen) => {
       screen.classList.remove("active");
@@ -203,8 +204,8 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (screenId === "profileScreen") {
       updateProfileScreen();
     } else if (screenId === "shopScreen") {
-      renderShopItems(); // Оновлюємо магазин при відкритті
-      shopBalanceEl.textContent = score.toLocaleString(); // Оновлюємо баланс в магазині
+      renderShopItems();
+      shopBalanceEl.textContent = score.toLocaleString(); 
     }
   }
 
@@ -301,7 +302,8 @@ document.addEventListener("DOMContentLoaded", () => {
         leaderboardList.appendChild(listItem);
       });
     } catch (error) {
-      console.error("Помилка завантаження таблиці лідерів:", error);
+      console.error("Помилка завантаження таблиці лідерів:"+ error);
+      alert("Помилка завантаження таблиці лідерів:"+error)
       leaderboardList.innerHTML =
         '<li class="error-message">Не вдалося завантажити лідерів. Спробуйте пізніше.</li>';
       tg.showAlert("Помилка: Не вдалося завантажити таблицю лідерів.");
@@ -387,6 +389,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "Помилка при покупці товару та оновленні на сервері:",
         error
       );
+      alert("Помилка при покупці товару та оновленні на сервері:"+error)
       tg.showAlert(`Помилка: Не вдалося зберегти покупку. ${error.message}`);
       // Можливо, відкотити зміни в score/clicksPerTap тут, якщо збереження не вдалося
     }
@@ -406,6 +409,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (userId) {
       updateUserData(userId, { clicks: score }).catch((err) => {
         console.error("Помилка оновлення кліків на сервері:", err);
+        alert("Помилка оновлення кліків на сервері:"+ err)
       });
     }
   });
@@ -448,6 +452,9 @@ document.addEventListener("DOMContentLoaded", () => {
       tg.showAlert(
         "Помилка: Не вдалося отримати ID користувача Telegram. Гра може працювати некоректно."
       );
+      alert(
+        "Помилка: Не вдалося отримати ID користувача Telegram. Гра може працювати некоректно."
+      );
       console.error(
         "Telegram ID відсутній, неможливо ініціалізувати користувача."
       );
@@ -471,6 +478,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "Користувача не знайдено або помилка завантаження, спроба створення нового:",
         error.message
       );
+      alert("Користувача не знайдено або помилка завантаження, спроба створення нового:")
       try {
         // Створюємо нового користувача з початковими значеннями
         const newUser = await createUser(userName, telegram_id, 0, 1);
@@ -489,6 +497,7 @@ document.addEventListener("DOMContentLoaded", () => {
         tg.showAlert(
           `Критична помилка: Не вдалося завантажити або створити користувача. ${createError.message}. Спробуйте оновити Web App.`
         );
+        alert("Критична помилка при ініціалізації користувача:"+createError)
         return;
       }
     }
