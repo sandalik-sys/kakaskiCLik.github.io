@@ -23,12 +23,17 @@ async function sendApiRequest(url, method = 'GET', data = null) {
         options.body = JSON.stringify(data);
     }
 
-    const res = await fetch(url, options);
-    if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.detail || `API error: ${res.status}`);
+    try {
+        const res = await fetch(url, options);
+        if (!res.ok) {
+            const errorText = await res.text(); // отримаємо повну відповідь як текст
+            throw new Error(`API error ${res.status}: ${errorText}`);
+        }
+        return await res.json();
+    } catch (e) {
+        alert("API Error:\n" + e.message); // <-- головне тут
+        throw e;
     }
-    return await res.json();
 }
 
 async function getUserByTelegramId(tgId) {
@@ -44,7 +49,9 @@ async function createUser(tgId, name = "Telegram User") {
 }
 
 async function updateUserClicks(userIdToUpdate, newClicks) {
-    return await sendApiRequest(`${API_URL}/users/${userIdToUpdate}`, 'PATCH', { clicks: newClicks });
+    return await sendApiRequest(`${API_URL}/users/${userIdToUpdate}`, 'PATCH', {
+        clicks: newClicks
+    });
 }
 
 function updateUI() {
@@ -65,14 +72,13 @@ async function init() {
         clicks = user.clicks || 0;
         updateUI();
     } catch (e) {
-        // If user not found, create new
         try {
             const newUser = await createUser(telegram_id);
             userId = newUser.id;
             clicks = 0;
             updateUI();
         } catch (err) {
-            alert("Failed to create user: " + err.message);
+            alert("Failed to create user:\n" + err.message);
         }
     }
 }
@@ -85,7 +91,7 @@ clicker.addEventListener('click', async () => {
         try {
             await updateUserClicks(userId, clicks);
         } catch (e) {
-            console.error("Failed to update clicks:", e);
+            alert("Failed to update clicks:\n" + e.message);
         }
     }
 });
