@@ -1,4 +1,4 @@
-const API_URL = 'https://ac99fb76-c7ab-4a6d-8eab-4093fe814f0a-00-3mcr68k5zte4w.worf.replit.dev';
+const API_URL = 'https://kakaskibackend.onrender.com';
 
 let telegram_id = null;
 let userId = null;
