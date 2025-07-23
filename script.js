@@ -38,8 +38,6 @@ const shopProducts = [
     { id: 4, name: 'Авто-Клікер 1', description: '+1 клік/сек', cost: 5000, type: 'auto_clicks', value: 1, icon: '🤖' }, // Приклад автокліка
 ];
 
-// --- Функції API взаємодії ---
-
 async function sendApiRequest(url, method = 'GET', data = null) {
     try {
         const options = {
@@ -68,11 +66,10 @@ async function createUser(name, telegramId, initialClicks = 0, initialClicksPerT
             name,
             telegram_id: telegramId,
             clicks: initialClicks,
-            clicks_per_tap: initialClicksPerTap 
         });
     } catch (error) {
         if (error.message && error.message.includes('already exists')) {
-            console.warn("Користувач вже існує, спроба отримати існуючого...");
+            alert("Користувач вже існує, спроба отримати існуючого...");
             return await getUserByTelegramId(telegramId);
         }
         throw error;
@@ -209,9 +206,8 @@ async function renderLeaderboard() {
     }
 }
 
-// Рендеринг товарів магазину
 function renderShopItems() {
-    shopItemsContainer.innerHTML = ''; // Очищаємо перед рендерингом
+    shopItemsContainer.innerHTML = ''; 
 
     shopProducts.forEach(product => {
         const itemDiv = document.createElement('div');
@@ -233,7 +229,6 @@ function renderShopItems() {
     checkShopItemAvailability(); // Перевіряємо доступність після рендерингу
 }
 
-// Перевірка доступності товарів у магазині
 function checkShopItemAvailability() {
     document.querySelectorAll('.shop-item').forEach(itemDiv => {
         const cost = parseInt(itemDiv.dataset.cost);
@@ -246,7 +241,6 @@ function checkShopItemAvailability() {
     });
 }
 
-// Логіка покупки товару
 async function buyItem(itemId) {
     const product = shopProducts.find(p => p.id === itemId);
     if (!product) {
@@ -259,28 +253,24 @@ async function buyItem(itemId) {
         return;
     }
 
-    // Знімаємо вартість
     score -= product.cost;
 
-    // Застосовуємо ефект товару
     if (product.type === 'clicks_per_tap') {
         clicksPerTap += product.value;
     }
-    // else if (product.type === 'auto_clicks') { ... логіка для автокліка ... }
 
-    updateUI(); // Оновлюємо UI негайно
+    updateUI(); 
 
-    // Надсилаємо оновлення на бекенд (баланс та clicks_per_tap)
     try {
         await updateUserData(userId, {
             clicks: score,
-            clicks_per_tap: clicksPerTap // Оновлюємо також clicks_per_tap на сервері
+            clicks_per_tap: clicksPerTap 
         });
         tg.showNotification({
             message: `Ви успішно купили "${product.name}"!`,
             type: 'success'
         });
-        renderShopItems(); // Перерендеримо магазин, щоб оновити стан кнопок
+        renderShopItems(); 
     } catch (error) {
         console.error("Помилка при покупці товару та оновленні на сервері:", error);
         tg.showAlert(`Помилка: Не вдалося зберегти покупку. ${error.message}`);
@@ -289,17 +279,12 @@ async function buyItem(itemId) {
 }
 
 
-// --- Обробники подій ---
 
-// Обробник кліку по какашці
 clicker.addEventListener('click', (event) => {
-    score += clicksPerTap; // Додаємо кліки з урахуванням апгрейду
+    score += clicksPerTap; 
     updateUI();
-    spawnPoopParticles(event); // Спавнимо какашки
+    spawnPoopParticles(event);
 
-    // Надсилаємо оновлення кліків на бекенд кожні 10 кліків або кожні 5 секунд
-    // Це зменшить навантаження на API порівняно з кожним кліком.
-    // Для простоти поки що надсилаємо кожен клік, але у великому проєкті краще це оптимізувати.
     if (userId) {
         updateUserData(userId, { clicks: score }).catch(err => {
             console.error("Помилка оновлення кліків на сервері:", err);
@@ -307,14 +292,12 @@ clicker.addEventListener('click', (event) => {
     }
 });
 
-// Обробник перемикача теми
 themeSwitch.addEventListener('change', () => {
     const isDark = themeSwitch.checked;
     document.body.classList.toggle('dark-theme', isDark);
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
 });
 
-// Обробники для кнопок меню та "Назад" та покупок в магазині
 appContainer.addEventListener('click', (event) => {
     // Кнопки головного меню
     if (event.target.matches('.menu-buttons .btn')) {
@@ -323,22 +306,20 @@ appContainer.addEventListener('click', (event) => {
             showScreen(targetScreenId);
         }
     }
-    // Кнопки "Назад"
+    
     if (event.target.matches('.back-btn')) {
         showScreen('mainMenu');
     }
-    // Кнопки "Купити" в магазині
+    
     if (event.target.matches('.shop-item .buy-btn')) {
         const itemId = parseInt(event.target.closest('.shop-item').dataset.itemId);
         buyItem(itemId);
     }
 });
 
-
-// --- Ініціалізація гри ---
 async function init() {
-    loadTheme(); // Завантажуємо тему при старті
-    createParticles(); // Створюємо фонові частинки
+    loadTheme(); 
+    createParticles(); 
 
     if (!telegram_id) {
         tg.showAlert('Помилка: Не вдалося отримати ID користувача Telegram. Гра може працювати некоректно.');
@@ -351,7 +332,7 @@ async function init() {
         userId = user.id;
         score = user.clicks;
         userName = user.name;
-        // Завантажуємо clicks_per_tap з бекенду, якщо він там є
+        
         if (user.clicks_per_tap !== undefined) {
             clicksPerTap = user.clicks_per_tap;
         }
@@ -359,7 +340,6 @@ async function init() {
     } catch (error) {
         console.warn("Користувача не знайдено або помилка завантаження, спроба створення нового:", error.message);
         try {
-            // Створюємо нового користувача з початковими значеннями
             const newUser = await createUser(userName, telegram_id, 0, 1);
             userId = newUser.id;
             score = newUser.clicks;
@@ -374,7 +354,7 @@ async function init() {
     }
 
     updateUI();
-    showScreen('mainMenu'); // Показуємо головне меню після ініціалізації
+    showScreen('mainMenu'); 
 }
 
-init(); // Запускаємо ініціалізацію гри
+init(); 
